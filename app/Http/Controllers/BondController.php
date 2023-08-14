@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseOrderRequest;
 use App\Lib\Repositories\BondRepository;
+use App\Lib\Repositories\PurchaseOrderRepository;
 use App\Lib\Services\BondService;
+use Illuminate\Http\Response;
 
 class BondController extends Controller
 {
-    public function __construct(private BondRepository $bondRepository)
+    public function __construct(private BondRepository $bondRepository, private PurchaseOrderRepository $purchaseOrderRepository)
     {
     }
 
@@ -17,6 +20,15 @@ class BondController extends Controller
         $periodDuration = BondService::calculatePeriod($bond);
         $dateArr = BondService::interestPaymentDates($bond, $periodDuration);
 
-        return success($dateArr, 'dates', 200);
+        return success($dateArr, 'dates', Response::HTTP_OK);
+    }
+
+    public function order(int $idBond, PurchaseOrderRequest $request)
+    {
+        $data = $request->validated();
+        $data['fk_id_bond'] = $idBond;
+
+        $purchaseOrder = $this->purchaseOrderRepository->insert($data);
+        return success($purchaseOrder->toArray(), 'purchaseOrder', Response::HTTP_CREATED);
     }
 }
