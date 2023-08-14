@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('purchase_order', function (Blueprint $table) {
             $table->id('id_purchase_order');
+            $table->unsignedBigInteger('fk_id_bond');
+            $table->foreign('fk_id_bond')->references('id_bond')->on('bond');
             $table->date('order_date');
             $table->integer('number_of_bonds_received');
             $table->timestamps();
