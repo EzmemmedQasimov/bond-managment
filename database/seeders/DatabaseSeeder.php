@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        DB::table('bond')->insert([
+            'issue_date'                        => '2021-11-08',
+            'last_circulation_date'             => '2022-11-03',
+            'nominal_price'                     => 100,
+            'coupon_payment_frequency'          => 4,
+            'interest_calculation_period'       => 360,
+            'coupon_interest'                   => 10
+        ]);
     }
 }
