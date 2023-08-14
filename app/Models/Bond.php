@@ -12,6 +12,4 @@ class Bond extends Model
     protected $table = 'bond';
     protected $primaryKey = 'id_bond';
     protected $guarded = ['id_bond'];
-
-    protected $dates = ['created_at', 'updated_at', 'issue_date','last_circulation_date'];
 }
