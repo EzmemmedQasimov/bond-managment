@@ -24,4 +24,9 @@ class PurchaseOrderRepository
 
         return $purchaseOrder;
     }
+
+    public function selectById($id)
+    {
+        return PurchaseOrder::where('id_purchase_order', $id)->firstOrFail();
+    }
 }

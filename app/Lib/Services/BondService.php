@@ -38,6 +38,17 @@ class BondService
         return $dateArr;
     }
 
+    public static function calculateAmount($dateArr, $order)
+    {
+        $payouts = [];
+        for ($i = 0; $i < count($dateArr); $i++) {
+            $numberOfDaysPast = Carbon::parse($dateArr[$i]['date'])->diffInDays(Carbon::parse($order->order_date), false);
+            array_push($payouts, ['date' => $dateArr[$i]['date'], 'amount' => round($order->bond->nominal_price / 100 * ($order->bond->coupon_interest) / $order->bond->interest_calculation_period * $numberOfDaysPast * count($dateArr), 4)]);
+        }
+        return $payouts;
+    }
+
+
     private function isWeekend($date)
     {
         $weekDay = date('w', strtotime($date));

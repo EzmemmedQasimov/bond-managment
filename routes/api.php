@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/bond/{id}/payouts',[BondController::class,'payouts'])->name('bond.payouts');
 Route::post('/bond/{id}/order',[BondController::class,'order'])->name('bond.order');
+Route::post('/bond/order/{id}',[BondController::class,'amount'])->name('bond.amount');

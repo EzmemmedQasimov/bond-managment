@@ -31,4 +31,14 @@ class BondController extends Controller
         $purchaseOrder = $this->purchaseOrderRepository->insert($data);
         return success($purchaseOrder->toArray(), 'purchaseOrder', Response::HTTP_CREATED);
     }
+
+    public function amount($idOrder)
+    {
+        $order = $this->purchaseOrderRepository->selectById($idOrder);
+        $periodDuration = BondService::calculatePeriod($order->bond);
+        $dateArr = BondService::interestPaymentDates($order->bond, $periodDuration);
+        $payouts = BondService::calculateAmount($dateArr, $order);
+
+        return success($payouts, 'payouts', Response::HTTP_OK);
+    }
 }
